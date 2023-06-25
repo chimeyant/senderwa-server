@@ -59,7 +59,7 @@ export default class Outbox extends compose(BaseModel, SoftDeletes) {
       sender_number: this.senderNumber,
       recieve_number: this.recieveNumber,
       content: this.content,
-      status:this.status
+      status:this.status == 'waiting' ? {color:'grey',text:"Menunggu Antrian"}: this.status == 'waiting' ? {color:'orange',text:"Dalam Proses Pengiriman"}:{color:'green',text:'Terkirim'}
     }
   }
 
