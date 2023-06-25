@@ -90,11 +90,11 @@ class SendMessageService {
 
     this.outboxSvc.updateStatus(true, 'sended', this.data.uuid)
 
-
-    Ws.io.emit( this.data.userName + ":sended",{
-      message:"Pesan berhasil terkirim...!"
-    })
-
+    if(!this.data.api){
+      Ws.io.emit( this.data.userName + ":sended",{
+        message:"Pesan berhasil terkirim...!"
+      })
+    }
   }
 
   public async sendImage(){
