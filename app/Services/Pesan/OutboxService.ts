@@ -4,6 +4,7 @@ import SendMessageService from "../SendMessageService";
 import Utility from "App/Helpers/Utility";
 import { Queue } from "@ioc:Setten/Queue";
 import User from "App/Models/User";
+import { DateTime } from "luxon";
 
 export type OutboxInterface = {
   userUuid: string,
@@ -37,6 +38,7 @@ class OutboxService{
       model.forEach(element => {
         const row ={}
         row['id']= element.uuid
+        row['tanggal']= DateTime.fromISO(element.createdAt).toFormat("dd/mm/yyyy H:M:s")
         row['sender_number']= element.senderNumber
         row['recieve_number']= element.recieveNumber
         row['content']= element.content

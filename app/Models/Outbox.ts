@@ -56,6 +56,7 @@ export default class Outbox extends compose(BaseModel, SoftDeletes) {
   public get datadisplay(){
     return {
       id: this.uuid,
+      tanggal: DateTime.fromISO(this.createdAt).toFormat("dd/mm/yyyy H:M:s"),
       sender_number: this.senderNumber,
       recieve_number: this.recieveNumber,
       content: this.content,
