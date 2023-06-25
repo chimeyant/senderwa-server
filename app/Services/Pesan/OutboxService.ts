@@ -38,7 +38,7 @@ class OutboxService{
       model.forEach(element => {
         const row ={}
         row['id']= element.uuid
-        row['tanggal']= DateTime.fromISO(element.createdAt).toFormat("dd/mm/yyyy H:M:s")
+        row['tanggal']= DateTime.fromISO(element.createdAt).toFormat("dd/mm/yyyy H:MM:ss")
         row['sender_number']= element.senderNumber
         row['recieve_number']= element.recieveNumber
         row['content']= element.content
