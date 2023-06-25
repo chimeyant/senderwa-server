@@ -11,7 +11,7 @@ class WhatsappService {
   public booted = false
 
   async boot(phonenumber:any, username:string){
-    const auth_folder = Env.get("NODE_ENV") == "production" ? "../wa/auth/" : "./wa_auth/"
+    const auth_folder = Env.get("NODE_ENV") == "production" ? "../wa_auth/" : "./wa_auth/"
     const {state, saveCreds}= await useMultiFileAuthState( auth_folder + phonenumber )
     //lihat verisi terakhir wa web
     const {version, isLatest} = await fetchLatestBaileysVersion()
