@@ -28,20 +28,35 @@ export type OutboxServiceApiType = {
 }
 
 class OutboxService{
-  public async lists(){
-    const model = await Outbox.query().orderBy("updated_at",'desc')
-
+  public async lists(userUuid:string,authent:string){
     const datas:{}[]=[]
 
-    model.forEach(element => {
-      const row ={}
-      row['id']= element.uuid
-      row['sender_number']= element.senderNumber
-      row['recieve_number']= element.recieveNumber
-      row['content']= element.content
-      row['status']= element.status
-      datas.push(row)
-    });
+    if(authent ==='superadmin'){
+      const model = await Outbox.query().orderBy("updated_at",'desc')
+
+      model.forEach(element => {
+        const row ={}
+        row['id']= element.uuid
+        row['sender_number']= element.senderNumber
+        row['recieve_number']= element.recieveNumber
+        row['content']= element.content
+        row['status']= element.status== "waiting" ? {color:'grey', text:'Menunggu Antrian'}: element.status == 'waiting' ? {color:'orange',text:'Proses Pengiriman'} : {color:'green',text:'Terkirim'}
+        datas.push(row)
+      });
+    }
+    if(authent=='customer'){
+      const model = await Outbox.query().where('user_uuid',userUuid).orderBy("updated_at",'desc')
+
+      model.forEach(element => {
+        const row ={}
+        row['id']= element.uuid
+        row['sender_number']= element.senderNumber
+        row['recieve_number']= element.recieveNumber
+        row['content']= element.content
+        row['status']= element.status== "waiting" ? {color:'grey', text:'Menunggu Antrian'}: element.status == 'waiting' ? {color:'orange',text:'Proses Pengiriman'} : {color:'green',text:'Terkirim'}
+        datas.push(row)
+      });
+    }
 
     return datas;
   }

@@ -4,10 +4,11 @@ import OutboxService from 'App/Services/Pesan/OutboxService'
 import OutboxValidator from 'App/Validators/Pesan/OutboxValidator'
 
 export default class OutboxesController {
-  public async index({}: HttpContextContract) {
+  public async index({auth}: HttpContextContract) {
+    const user = auth.user
     const service = new OutboxService
 
-    return service.lists()
+    return service.lists(user?.id, user?.authent)
   }
 
   public async create({}: HttpContextContract) {}

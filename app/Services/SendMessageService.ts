@@ -27,7 +27,7 @@ class SendMessageService {
   public async open(){
     try {
       const auth_folder = Env.get("NODE_ENV") == "production" ? "../wa_auth/" : "./wa_auth/"
-      const {state, saveCreds}= await useMultiFileAuthState(auth_folder+ this.data.senderNumber )
+      const {state, saveCreds}= await useMultiFileAuthState(auth_folder + this.data.senderNumber )
       const {version, isLatest} = await fetchLatestBaileysVersion()
         this.sock = makeWASocket({
           version,
