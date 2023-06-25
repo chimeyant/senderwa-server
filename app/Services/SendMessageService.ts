@@ -1,6 +1,7 @@
 import makeWASocket, { AnyMediaMessageContent, DisconnectReason, SignalDataSet, SignalDataTypeMap, delay, fetchLatestBaileysVersion, makeCacheableSignalKeyStore, makeInMemoryStore, useMultiFileAuthState } from "@whiskeysockets/baileys";
 import Ws from "./Ws";
 import OutboxService from "./Pesan/OutboxService";
+import Env from "@ioc:Adonis/Core/Env"
 
 export type dataType={
   uuid:string,
@@ -25,7 +26,8 @@ class SendMessageService {
 
   public async open(){
     try {
-      const {state, saveCreds}= await useMultiFileAuthState('./wa_auth/'+ this.data.senderNumber )
+      const auth_folder = Env.get("NODE_ENV") == "production" ? "../wa/auth/" : "./wa_auth/"
+      const {state, saveCreds}= await useMultiFileAuthState(auth_folder+ this.data.senderNumber )
       const {version, isLatest} = await fetchLatestBaileysVersion()
         this.sock = makeWASocket({
           version,
@@ -36,10 +38,6 @@ class SendMessageService {
           printQRInTerminal:false,
           syncFullHistory:false,
         })
-
-
-
-
 
         this.sock.ev.process(
           async (events)=>{
