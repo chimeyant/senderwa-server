@@ -26,7 +26,6 @@ export default class SendMessageValidator {
    */
   public schema = schema.create({
     apiKey: schema.string(),
-    senderNumber: schema.string({},[rules.minLength(10), rules.maxLength(12)]),
     recieveNumber: schema.string({}, [rules.minLength(10), rules.maxLength(12)]),
     message: schema.string()
   })
@@ -44,7 +43,6 @@ export default class SendMessageValidator {
    */
   public messages = {
     'apiKey.required':"apiKey tidak boleh kosong",
-    'senderNumber.required': "senderNumber tidak boleh kosong",
     'recieveNumber.required':'recieveNumber tidak boleh kosong',
     'message.required': "Pesan tidak boleh kosong"
   }
