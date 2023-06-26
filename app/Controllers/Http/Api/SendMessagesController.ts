@@ -3,10 +3,13 @@ import { MESSAGE_FORBIDDEN, SOMETHING_WRONG } from 'App/Helpers/Languange'
 import PengaturanService from 'App/Services/PengaturanService'
 import OutboxService from 'App/Services/Pesan/OutboxService'
 import UserService from 'App/Services/UserService'
+import SendMessageValidator from 'App/Validators/Api/SendMessageValidator'
 
 export default class SendMessagesController {
   async sendMessage({request, response}:HttpContextContract){
     const {apiKey, recieveNumber, message}= request.all()
+
+    await request.validate(SendMessageValidator)
 
     const service = new PengaturanService
 

@@ -3,7 +3,7 @@ import Outbox from "App/Models/Outbox";
 import SendMessageService from "../SendMessageService";
 import Utility from "App/Helpers/Utility";
 import { Queue } from "@ioc:Setten/Queue";
-import User from "App/Models/User";
+
 import { DateTime } from "luxon";
 
 export type OutboxInterface = {
