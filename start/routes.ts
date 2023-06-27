@@ -114,6 +114,7 @@ Route.group(()=>{
 
   Route.group(()=>{
     Route.post("send-message","Api/SendMessagesController.sendMessage")
+    Route.post("send-bulk-message","Api/SendMessagesController.sendBulkMessage")
   }).prefix('v2')
 
 

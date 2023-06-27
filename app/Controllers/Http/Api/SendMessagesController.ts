@@ -43,4 +43,34 @@ export default class SendMessagesController {
       })
     }
   }
+
+  async sendBulkMessage({request, response}:HttpContextContract){
+    try {
+      const {apiKey, datas} = request.all()
+
+
+      //chek apiKey Validator
+      const pengaturanSvc = new PengaturanService
+
+      const pengaturan = await pengaturanSvc.showByApiKey(apiKey)
+
+      const userSvc = new UserService
+
+      const user = await userSvc.getByUuid(pengaturan?.user_id)
+
+      //save to outbox
+      const outboxSvc = new OutboxService
+      const result = await outboxSvc.bulkStoreFromApiService(datas, pengaturan?.phone_number, user.id, user?.name)
+
+      return response.status(200).send(result)
+
+    } catch (error) {
+      return response.forbidden({
+        code:403,
+        success:false,
+        message:MESSAGE_FORBIDDEN
+      })
+    }
+  }
+
 }

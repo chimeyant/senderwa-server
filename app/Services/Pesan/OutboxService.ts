@@ -106,6 +106,8 @@ class OutboxService{
     }
   }
 
+
+
   public async show(id:string){
     const model = await Outbox.findBy("uuid",id)
 
@@ -190,6 +192,51 @@ class OutboxService{
         success:true,
         message:MESSAGE_API_SEND_MSG_SUCCESS
       }
+    } catch (error) {
+      return {
+        code:500,
+        success:false,
+        message: SOMETHING_WRONG,
+        error:error
+      }
+    }
+  }
+
+  public async bulkStoreFromApiService(payload, senderNumber:string, userUuid:string,userName:string ) {
+    try {
+      const datas:{}[]=[]
+
+
+      payload.forEach(element => {
+        const row ={}
+        row['user_uuid']= userUuid
+        row['sender_number']= senderNumber
+        row['recieve_number']= element.recieveNumber
+        row['content']= element.message
+        row['type']= "text"
+        row['process']= "now"
+        datas.push(row)
+      });
+
+      //Save to outbox table
+      await Outbox.createMany(datas)
+
+      // //prepare send to job
+      const dataOfJob ={
+        senderNumber:senderNumber,
+        userName: userName,
+      }
+
+       const jobId= senderNumber
+
+       await Queue.dispatch("App/Jobs/SendMessage",dataOfJob , {removeOnComplete:10, removeOnFail:10, repeat:{every:6000}, jobId:jobId })
+
+      return {
+        code:200,
+        success:true,
+        message:MESSAGE_API_SEND_MSG_SUCCESS
+      }
+
     } catch (error) {
       return {
         code:500,
