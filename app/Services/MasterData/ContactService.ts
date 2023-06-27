@@ -109,8 +109,8 @@ class ContactService {
     }
   }
 
-  public async combo(){
-    const model = await Contact.query().orderBy("name",'asc')
+  public async combo(userUuid:string){
+    const model = await Contact.query().where('user_uuid',userUuid).orderBy("name",'asc')
 
     const datas:{}[]=[]
 

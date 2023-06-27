@@ -54,9 +54,10 @@ export default class ContactsController {
     return response.status(result.code).send(result)
   }
 
-  public async combo({}:HttpContextContract){
+  public async combo({auth}:HttpContextContract){
+    const user = auth.user
     const service = new ContactService
 
-    return service.combo()
+    return service.combo(user.id)
   }
 }
