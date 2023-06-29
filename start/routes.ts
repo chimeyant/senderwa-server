@@ -101,6 +101,7 @@ Route.group(()=>{
    */
   Route.group(()=>{
     Route.resource('outbox',"Pesan/OutboxesController")
+    Route.post("outbox-bulk-delete","Pesan/OutboxesController.bulkDestroy")
 
   }).prefix("pesan").middleware(['auth'])
 
@@ -113,9 +114,22 @@ Route.group(()=>{
   }).prefix("mobiles").middleware(['auth'])
 
   Route.group(()=>{
+    /**
+     * Production
+     */
     Route.post("send-message","Api/SendMessagesController.sendMessage")
     Route.post("send-bulk-message","Api/SendMessagesController.sendBulkMessage")
+
+    /**
+     * Send Box
+     */
+    Route.group(()=>{
+      Route.post("send-message","Api/SendMessagesController.sendMessageSendBox")
+    Route.post("send-bulk-message","Api/SendMessagesController.sendBulkMessageSendBox")
+    }).prefix("send-box")
   }).prefix('v2')
+
+
 
 
 }).prefix("api")

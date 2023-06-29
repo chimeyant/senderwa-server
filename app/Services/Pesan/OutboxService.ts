@@ -165,6 +165,28 @@ class OutboxService{
     }
   }
 
+  public async bulkDelete(userUuid:string){
+    try {
+      const model = await Outbox.findBy("user_uuid", userUuid)
+      await model?.delete()
+
+      return {
+        code:200,
+        success:true,
+        message:DELETED_SUCCESS,
+        data:{id:id}
+      }
+    } catch (error) {
+      return {
+        code:500,
+        success:false,
+        message:SOMETHING_WRONG,
+        data:{},
+        error:error
+      }
+    }
+  }
+
   public async storeFromApiService(payload:OutboxServiceApiType){
     try {
       const model = new Outbox
@@ -230,6 +252,88 @@ class OutboxService{
        const jobId= senderNumber
 
        await Queue.dispatch("App/Jobs/SendMessage",dataOfJob , {removeOnComplete:10, removeOnFail:10, repeat:{every:6000}, jobId:jobId })
+
+      return {
+        code:200,
+        success:true,
+        message:MESSAGE_API_SEND_MSG_SUCCESS
+      }
+
+    } catch (error) {
+      return {
+        code:500,
+        success:false,
+        message: SOMETHING_WRONG,
+        error:error
+      }
+    }
+  }
+
+  public async storeFromApiServiceSendBox(payload:OutboxServiceApiType){
+    try {
+      const model = new Outbox
+      model.userUuid = payload.userUuid
+      model.senderNumber = payload.senderNumber
+      model.recieveNumber = payload.recieveNumber
+      model.content = payload.content
+      model.type = payload.type
+      model.process= payload.process
+
+      await model.save()
+
+      //prepare send to job
+      // const dataOfJob ={
+      //   senderNumber:payload.senderNumber,
+      //   userName: payload.userName,
+      // }
+
+      // const jobId = payload.senderNumber.toString()
+
+      // await Queue.dispatch("App/Jobs/SendMessage", dataOfJob, {removeOnComplete:10, removeOnFail:10, repeat:{every:6000}, jobId:jobId })
+
+      return {
+        code:200,
+        success:true,
+        message:MESSAGE_API_SEND_MSG_SUCCESS
+      }
+    } catch (error) {
+      return {
+        code:500,
+        success:false,
+        message: SOMETHING_WRONG,
+        error:error
+      }
+    }
+  }
+
+  public async bulkStoreFromApiServiceSendBox(payload, senderNumber:string, userUuid:string,userName:string ) {
+    try {
+      const datas:{}[]=[]
+
+
+      payload.forEach(element => {
+        const row ={}
+        row['user_uuid']= userUuid
+        row['sender_number']= senderNumber
+        row['recieve_number']= element.recieveNumber
+        row['content']= element.message
+        row['type']= "text"
+        row['process']= "now"
+        datas.push(row)
+      });
+
+      // //Save to outbox table
+      // await Outbox.createMany(datas)
+
+      // // //prepare send to job
+      // const dataOfJob ={
+      //   senderNumber:senderNumber,
+      //   userName: userName,
+      // }
+
+      //  const jobId= senderNumber
+
+      //  await Queue.dispatch("App/Jobs/SendMessage",dataOfJob , {removeOnComplete:10, removeOnFail:10, repeat:{every:6000}, jobId:jobId })
 
       return {
         code:200,
