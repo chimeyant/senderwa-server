@@ -1,8 +1,6 @@
 import { DELETED_SUCCESS, SOMETHING_WRONG, STORE_SUCCESS, UPDATE_SUCCESS } from "App/Helpers/Languange";
 import Pengaturan from "App/Models/Pengaturan";
 import WhatsappService from "./WhatsappService";
-import Utility from "App/Helpers/Utility";
-import SendMessageService from "./SendMessageService";
 
 
 interface PengaturanInterface{

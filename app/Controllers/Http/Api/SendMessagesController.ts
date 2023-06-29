@@ -68,7 +68,8 @@ export default class SendMessagesController {
       return response.forbidden({
         code:403,
         success:false,
-        message:MESSAGE_FORBIDDEN
+        message:MESSAGE_FORBIDDEN,
+        error:error
       })
     }
   }
