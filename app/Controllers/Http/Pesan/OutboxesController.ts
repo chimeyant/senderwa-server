@@ -64,7 +64,7 @@ export default class OutboxesController {
     return response.send(result)
   }
 
-  public bulkDestroy(auth, response){
+  public async bulkDestroy(auth, response){
     const user = auth.user_id
 
     const service = new OutboxService
