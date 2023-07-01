@@ -45,6 +45,9 @@ export default class SendMessageValidator {
   public messages = {
     'apiKey.required':"apiKey tidak boleh kosong",
     'recieveNumber.required':'recieveNumber tidak boleh kosong',
+    'recieveNumber.minLenth': "nomor telpon tidak benar minimal 9 digit",
+    'recieveNumber.maxLength': "nomor telpon tidak benar maksimal 13 digit",
+    'recieveNumber.mobile': "nomor telpon tidak benar",
     'message.required': "Pesan tidak boleh kosong"
   }
 }
