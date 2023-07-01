@@ -27,7 +27,7 @@ export default class SendMessageValidator {
   public schema = schema.create({
     apiKey: schema.string(),
     //recieveNumber: schema.string({}, [rules.minLength(10), rules.maxLength(13)]),
-    recieveNumber: schema.string({}, [ rules.mobile()]),
+    recieveNumber: schema.string({}, [ rules.mobile(), rules.minLength(9), rules.maxLength(13)]),
     message: schema.string()
   })
 
