@@ -30,8 +30,8 @@ export default class OutboxesController {
       api:false
     }
 
-    const service = new OutboxService
 
+    const service = new OutboxService
     const result = await service.store(payload)
 
     return response.send(result)

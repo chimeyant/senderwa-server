@@ -33,7 +33,7 @@ class OutboxService{
     const datas:{}[]=[]
 
     if(authent ==='superadmin'){
-      const model = await Outbox.query().orderBy("updated_at",'desc')
+      const model = await Outbox.query().limit(100).orderBy("updated_at",'desc')
 
       model.forEach(element => {
         const row ={}
