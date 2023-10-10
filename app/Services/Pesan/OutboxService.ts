@@ -33,15 +33,16 @@ class OutboxService{
     const datas:{}[]=[]
 
     if(authent ==='superadmin'){
-      const model = await Outbox.query().where('user_uuid', userUuid).limit(100).orderBy("updated_at",'desc')
+      const model = await Outbox.query().where('user_uuid', userUuid).preload('pengaturan').limit(100).orderBy("updated_at",'desc')
       model.forEach(element => {
         const row ={}
         row['id']= element.uuid
         row['tanggal']= DateTime.fromISO(element.createdAt).toFormat("dd/mm/yyyy H:MM:ss")
-        row['sender_number']= element.senderNumber
+        row['sender_number']= element.pengaturan.name
         row['recieve_number']= element.recieveNumber
         row['content']= element.content
         row['status']= element.status== "waiting" ? {color:'grey', text:'Menunggu Antrian'}: element.status == 'waiting' ? {color:'orange',text:'Proses Pengiriman'} : {color:'green',text:'Terkirim'}
+
         datas.push(row)
       });
     }

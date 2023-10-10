@@ -2,7 +2,8 @@ import { DateTime } from 'luxon'
 import {v4 as uuid} from "uuid"
 import { SoftDeletes } from '@ioc:Adonis/Addons/LucidSoftDeletes'
 import {compose} from "@ioc:Adonis/Core/Helpers"
-import { BaseModel, beforeCreate, column, computed } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, beforeCreate, belongsTo, column, computed } from '@ioc:Adonis/Lucid/Orm'
+import Pengaturan from './Pengaturan'
 
 export default class Outbox extends compose(BaseModel, SoftDeletes) {
   @column({ isPrimary: true })
@@ -51,6 +52,9 @@ export default class Outbox extends compose(BaseModel, SoftDeletes) {
   public static async createUUID(outbox:Outbox){
     outbox.uuid = uuid()
   }
+
+  @belongsTo(()=> Pengaturan, {foreignKey: "senderNumber",localKey:"phoneNumber" })
+  public pengaturan: BelongsTo<typeof Pengaturan>
 
   @computed()
   public get datadisplay(){
