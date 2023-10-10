@@ -118,7 +118,6 @@ export default class SendMessagesController {
     try {
       const {apiKey, datas} = request.all()
 
-
       //chek apiKey Validator
       const pengaturanSvc = new PengaturanService
 
