@@ -33,8 +33,7 @@ class OutboxService{
     const datas:{}[]=[]
 
     if(authent ==='superadmin'){
-      const model = await Outbox.query().limit(100).orderBy("updated_at",'desc')
-
+      const model = await Outbox.query().where('user_id', userUuid).limit(100).orderBy("updated_at",'desc')
       model.forEach(element => {
         const row ={}
         row['id']= element.uuid
@@ -47,7 +46,7 @@ class OutboxService{
       });
     }
     if(authent=='customer'){
-      const model = await Outbox.query().where('user_uuid',userUuid).orderBy("updated_at",'desc')
+      const model = await Outbox.query().where('user_id',userUuid).orderBy("updated_at",'desc')
 
       model.forEach(element => {
         const row ={}
