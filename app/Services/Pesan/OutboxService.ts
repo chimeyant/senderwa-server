@@ -34,7 +34,7 @@ class OutboxService{
 
     if(authent ==='superadmin'){
       //sender
-      const model = await Outbox.query().where('user_uuid', userUuid).where('sender_number','087888875880').preload('pengaturan').limit(1000).orderBy("updated_at",'desc')
+      const model = await Outbox.query().where('user_uuid', userUuid).where('sender_number','082311651238').preload('pengaturan').limit(1000).orderBy("updated_at",'desc')
       model.forEach(element => {
         const row ={}
         row['id']= element.uuid
