@@ -27,7 +27,7 @@
     "@hapi/boom": "^10.0.1",
     "@setten/bull-queue": "^1.0.1",
     "@vinejs/vine": "^1.4.1",
-    "@whiskeysockets/baileys": "^6.2.1",
+    "@whiskeysockets/baileys": "^6.5.0",
     "adonis-lucid-soft-deletes": "^1.4.3",
     "axios": "^0.27.2",
     "luxon": "^2.3.1",
